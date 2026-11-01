@@ -1,0 +1,20 @@
+{
+  "name": "railconnect",
+  "version": "2.0.0",
+  "description": "RailConnect - railway ticket booking (Node.js, Express, MySQL)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "setup": "node setup.js",
+    "test": "node --test tests/logic.test.js"
+  },
+  "license": "ISC",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "mysql2": "^3.11.0"
+  }
+}

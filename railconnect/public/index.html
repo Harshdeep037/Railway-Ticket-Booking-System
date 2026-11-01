@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RailConnect - Book Train Tickets Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a class="logo" href="#home"><span class="logo-icon">🚆</span><span>RailConnect</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#results">Trains</a>
+      <a href="#bookings">My Bookings</a>
+      <a href="#pnr">PNR Status</a>
+      <a href="#features">Why us</a>
+    </nav>
+    <div class="nav-actions">
+      <span id="userChip" class="user-chip" hidden></span>
+      <button id="loginButton" class="btn btn-primary" type="button">Login</button>
+      <button id="menuBtn" class="menu-btn" type="button" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO + SEARCH -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="badge">🚆 Smart railway booking</span>
+        <h1>Travel smarter.<br><span>Book in seconds.</span></h1>
+        <p>Search trains between any two stations, see live seat availability for your date, pick your berth and get an instant e-ticket with PNR.</p>
+        <div class="stats">
+          <div><b>18</b><span>Trains</span></div>
+          <div><b>27</b><span>Stations</span></div>
+          <div><b>6</b><span>Classes</span></div>
+        </div>
+      </div>
+
+      <form class="search-card" id="searchForm" autocomplete="off">
+        <h2>Find your train</h2>
+        <div class="route-row route-main">
+          <div class="field"><label for="from">From</label><input id="from" list="stationList" placeholder="e.g. New Delhi" required></div>
+          <button type="button" class="swap" id="swapBtn" title="Swap stations" aria-label="Swap stations">⇄</button>
+          <div class="field"><label for="to">To</label><input id="to" list="stationList" placeholder="e.g. Chandigarh" required></div>
+        </div>
+        <div class="route-row">
+          <div class="field"><label for="journeyDate">Journey date</label><input type="date" id="journeyDate" required></div>
+          <div class="field"><label for="classType">Class</label>
+            <select id="classType">
+              <option value="">All classes</option>
+              <option value="SL">Sleeper (SL)</option>
+              <option value="3A">AC 3 Tier (3A)</option>
+              <option value="2A">AC 2 Tier (2A)</option>
+              <option value="1A">AC First (1A)</option>
+              <option value="CC">Chair Car (CC)</option>
+              <option value="EC">Executive Chair (EC)</option>
+            </select>
+          </div>
+        </div>
+        <datalist id="stationList"></datalist>
+        <button class="btn btn-accent btn-block" type="submit" id="searchBtn">🔍 Search trains</button>
+        <div class="chips" id="popularRoutes"><small>Popular:</small></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="section" id="results">
+    <div class="section-head">
+      <span class="badge badge-soft">Available trains</span>
+      <h2 id="resultsTitle">Train search results</h2>
+      <p id="resultsSub">Enter your journey details above to see trains.</p>
+    </div>
+    <div class="sortbar" id="sortBar" hidden>
+      <span>Sort by</span>
+      <button data-sort="dep" class="active" type="button">Departure</button>
+      <button data-sort="dur" type="button">Duration</button>
+      <button data-sort="fare" type="button">Lowest fare</button>
+    </div>
+    <div id="trainResults" class="train-results">
+      <div class="empty"><div class="empty-icon">🚆</div><h3>Search for a train</h3><p>Your results will appear here.</p></div>
+    </div>
+  </section>
+
+  <!-- BOOKINGS -->
+  <section class="section alt" id="bookings">
+    <div class="section-head">
+      <span class="badge badge-soft">My journeys</span>
+      <h2>My bookings</h2>
+      <p>View tickets, print them, or cancel with an instant refund quote.</p>
+    </div>
+    <div class="tabs" id="bookingTabs">
+      <button data-tab="upcoming" class="active" type="button">Upcoming</button>
+      <button data-tab="past" type="button">Past</button>
+      <button data-tab="cancelled" type="button">Cancelled</button>
+    </div>
+    <div id="bookingsContainer" class="bookings"></div>
+  </section>
+
+  <!-- PNR -->
+  <section class="section" id="pnr">
+    <div class="section-head">
+      <span class="badge badge-soft">Check ticket</span>
+      <h2>PNR status</h2>
+      <p>Enter the 10-digit PNR from your ticket.</p>
+    </div>
+    <form class="pnr-box" id="pnrForm">
+      <input id="pnrNumber" inputmode="numeric" maxlength="10" placeholder="10-digit PNR" required>
+      <button class="btn btn-primary" type="submit">Check status</button>
+    </form>
+    <div id="pnrResult" class="pnr-result"></div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section alt" id="features">
+    <div class="section-head">
+      <span class="badge badge-soft">Why RailConnect</span>
+      <h2>Built for a smooth journey</h2>
+    </div>
+    <div class="features">
+      <div class="feature"><span>📅</span><h3>Date-wise availability</h3><p>Seats are tracked for every run of every train, so what you see is what you get.</p></div>
+      <div class="feature"><span>🛏️</span><h3>Berth preference</h3><p>Choose lower, upper, window or aisle - we allocate the closest match.</p></div>
+      <div class="feature"><span>👨‍👩‍👧</span><h3>Up to 6 passengers</h3><p>Book the whole family on a single PNR in one go.</p></div>
+      <div class="feature"><span>💸</span><h3>Transparent refunds</h3><p>See your exact refund before you cancel. No surprises.</p></div>
+      <div class="feature"><span>🔒</span><h3>Secure accounts</h3><p>Hashed passwords and signed sessions protect your bookings.</p></div>
+      <div class="feature"><span>🖨️</span><h3>Printable e-ticket</h3><p>Open any booking and print or save your ticket as PDF.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div><div class="logo"><span class="logo-icon">🚆</span><span>RailConnect</span></div>
+      <p>A modern railway booking demo. Timetables and fares are sample data and payments are simulated.</p></div>
+    <div><h4>Quick links</h4><a href="#home">Search</a><a href="#bookings">My bookings</a><a href="#pnr">PNR status</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 RailConnect</div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal" hidden>
+  <div class="modal-card narrow">
+    <button class="close" data-close type="button" aria-label="Close">&times;</button>
+    <div class="auth-tabs"><button class="active" data-auth="login" type="button">Login</button><button data-auth="register" type="button">Register</button></div>
+    <form id="loginForm" class="stack">
+      <div class="field"><label for="loginEmail">Email</label><input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="email"></div>
+      <div class="field"><label for="loginPassword">Password</label><input type="password" id="loginPassword" required autocomplete="current-password"></div>
+      <button class="btn btn-primary btn-block" type="submit">Login</button>
+      <button class="link-btn" type="button" id="demoFill">Use demo account</button>
+    </form>
+    <form id="registerForm" class="stack" hidden>
+      <div class="field"><label for="regName">Full name</label><input id="regName" required autocomplete="name"></div>
+      <div class="field"><label for="regEmail">Email</label><input type="email" id="regEmail" required autocomplete="email"></div>
+      <div class="field"><label for="regPhone">Mobile (optional)</label><input id="regPhone" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel"></div>
+      <div class="field"><label for="regPassword">Password</label><input type="password" id="regPassword" minlength="8" required autocomplete="new-password"><small>At least 8 characters with a letter and a number.</small></div>
+      <button class="btn btn-primary btn-block" type="submit">Create account</button>
+    </form>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal" id="bookingModal" hidden>
+  <div class="modal-card">
+    <button class="close" data-close type="button" aria-label="Close">&times;</button>
+    <div class="steps" id="steps"><span class="on">1 Passengers</span><span>2 Payment</span><span>3 Ticket</span></div>
+    <div id="bookingSummary" class="trip-summary"></div>
+
+    <div id="stepPassengers">
+      <div id="passengerList"></div>
+      <button type="button" class="btn btn-ghost" id="addPassenger">＋ Add passenger</button>
+      <div class="total-row"><span>Total fare</span><strong id="totalFare">₹0</strong></div>
+      <button type="button" class="btn btn-primary btn-block" id="toPayment">Continue to payment</button>
+    </div>
+
+    <div id="stepPayment" hidden>
+      <h3>Choose payment method</h3>
+      <div class="pay-options" id="payOptions">
+        <label><input type="radio" name="pay" value="UPI" checked><span>📱 UPI</span></label>
+        <label><input type="radio" name="pay" value="Card"><span>💳 Card</span></label>
+        <label><input type="radio" name="pay" value="Net Banking"><span>🏦 Net Banking</span></label>
+        <label><input type="radio" name="pay" value="Wallet"><span>👛 Wallet</span></label>
+      </div>
+      <p class="note">This is a demo - no real payment is taken.</p>
+      <div class="total-row"><span>Amount payable</span><strong id="payAmount">₹0</strong></div>
+      <div class="row-gap">
+        <button type="button" class="btn btn-ghost" id="backToPassengers">Back</button>
+        <button type="button" class="btn btn-accent grow" id="payNow">Pay &amp; book ticket</button>
+      </div>
+    </div>
+
+    <div id="stepDone" hidden></div>
+  </div>
+</div>
+
+<!-- SCHEDULE MODAL -->
+<div class="modal" id="scheduleModal" hidden>
+  <div class="modal-card narrow"><button class="close" data-close type="button" aria-label="Close">&times;</button><div id="scheduleBody"></div></div>
+</div>
+
+<!-- TICKET MODAL -->
+<div class="modal" id="ticketModal" hidden>
+  <div class="modal-card"><button class="close" data-close type="button" aria-label="Close">&times;</button>
+    <div id="ticketBody"></div>
+    <div class="row-gap no-print"><button class="btn btn-primary grow" id="printTicket" type="button">🖨️ Print / Save PDF</button></div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal" id="confirmModal" hidden>
+  <div class="modal-card narrow"><div id="confirmBody"></div>
+    <div class="row-gap"><button class="btn btn-ghost grow" data-close type="button">Keep ticket</button><button class="btn btn-danger grow" id="confirmYes" type="button">Yes, cancel</button></div>
+  </div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
